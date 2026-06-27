@@ -1,6 +1,6 @@
 # 📚 PaperTutorAI
 
-> An AI-powered research paper assistant that enables users to upload multiple scientific papers, generate detailed summaries, and interact with them through Retrieval-Augmented Generation (RAG).
+> An AI-powered research paper assistant that lets you upload scientific papers, generate comprehensive summaries, and chat with them using Retrieval-Augmented Generation (RAG).
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
@@ -10,86 +10,131 @@
 
 ---
 
-## 🚀 Features
+## ✨ Features
 
-- 📄 Upload one or multiple research papers (PDF)
-- 🔍 Hybrid Retrieval (FAISS + BM25)
-- 💬 Chat with your research papers
-- 📝 Generate structured paper summaries
-- 🌐 Context-aware web search for background information
-- 📏 Adjustable answer length
-- 📚 Multi-paper knowledge base
-- 📖 Source attribution with page numbers
+- 📄 Upload one or multiple research papers
+- 📚 Persistent multi-paper knowledge base
+- 📝 Generate detailed AI summaries for any selected paper
+- 💬 Chat with one or multiple papers simultaneously
+- 🔍 Hybrid retrieval using FAISS + BM25
+- 🌐 Automatic web search for background concepts
+- 🎚 Adjustable answer length (Short → Very Detailed)
+- 📖 Source attribution with page references
+- 🧹 Clear chat while preserving the knowledge base
+- ♻ Reset the entire knowledge base with one click
 
 ---
 
-## 📸 Screenshots
+# 📸 Demo
 
-(Add screenshots here)
-
-### Home Page
+## Home
 
 ![Home](assets/home.png)
 
-### Chat
+---
 
-![Chat](assets/chat.png)
+## Multi-Paper Knowledge Base
 
-### Summary
+![Knowledge Base](assets/knowledge-base.png)
+
+---
+
+## AI Paper Summary
 
 ![Summary](assets/summary.png)
 
 ---
 
-## 🏗️ Project Architecture
+## Detailed Research Assistant
+
+![Detailed Chat](assets/chat_detailed.png)
+
+---
+
+## Short Answers
+
+![Short Chat](assets/chat_short.png)
+
+---
+
+## Adjustable Response Length
+
+![Answer Length](assets/detailed.png)
+
+---
+
+## 🏗 Architecture
 
 ```text
-PDF Upload
-      │
-      ▼
-Text Extraction (PyMuPDF)
-      │
-      ▼
-Chunking
-      │
-      ▼
-SentenceTransformer Embeddings
-      │
-      ▼
-FAISS + BM25 Hybrid Retrieval
-      │
-      ▼
-Context Assembly
-      │
-      ▼
-OpenRouter LLM
-      │
-      ▼
-Answer / Summary
+                   PDF Upload
+                        │
+                        ▼
+               PyMuPDF Text Extraction
+                        │
+                        ▼
+                Semantic Chunking
+                        │
+                        ▼
+         SentenceTransformer Embeddings
+                        │
+                        ▼
+             FAISS Vector Database
+                        │
+        ┌───────────────┴───────────────┐
+        ▼                               ▼
+ Semantic Retrieval              BM25 Retrieval
+        └───────────────┬───────────────┘
+                        ▼
+               Hybrid Rank Fusion
+                        │
+                        ▼
+          Context Assembly + Web Search
+                        │
+                        ▼
+                 OpenRouter LLM
+                        │
+        ┌───────────────┴───────────────┐
+        ▼                               ▼
+      Chat Answers                 Paper Summary
 ```
 
 ---
 
-## 📂 Folder Structure
+## 🖥 Interface
+
+- Upload multiple PDFs
+- Select a paper for summarization
+- Ask questions across the entire knowledge base
+- Adjustable answer verbosity
+- Automatic citation of retrieved pages
+
+---
+
+## 📂 Project Structure
 
 ```text
 PaperTutorAI/
 │
 ├── app.py
-├── parsers/
 ├── rag/
+│   ├── embeddings.py
+│   ├── retriever.py
+│   ├── chunker.py
+│   ├── llm.py
+│   └── context_checker.py
+│
+├── parsers/
 ├── services/
-├── utils/
 ├── assets/
 ├── uploads/
 ├── exports/
-├── README.md
-└── requirements.txt
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-## ⚙️ Installation
+## ⚙ Installation
 
 ```bash
 git clone https://github.com/oreomcflurryyy/PaperTutorAI.git
@@ -98,19 +143,20 @@ cd PaperTutorAI
 
 python -m venv venv
 
-source venv/bin/activate
+source venv/bin/activate      # macOS/Linux
 
 pip install -r requirements.txt
 ```
 
-Create a `.env` file:
+Create a `.env`
 
 ```env
 OPENROUTER_API_KEY=your_api_key
+
 OPENROUTER_MODEL=nvidia/nemotron-3-super-120b-a12b:free
 ```
 
-Run:
+Run
 
 ```bash
 streamlit run app.py
@@ -118,51 +164,59 @@ streamlit run app.py
 
 ---
 
-## 💡 Usage
+## 🚀 Usage
 
 1. Upload one or more research papers.
-2. Build the knowledge base.
-3. Select a paper and generate a summary.
-4. Ask questions about the uploaded papers.
-5. Clear chat without removing the knowledge base.
-6. Clear the knowledge base to start over.
+2. The application extracts text and builds a hybrid vector database.
+3. Select a paper from the Knowledge Base.
+4. Generate a detailed summary for the selected paper.
+5. Ask questions across all uploaded papers.
+6. Adjust answer length using the response slider.
+7. Clear chat without deleting uploaded papers.
+8. Reset the knowledge base when starting a new project.
 
 ---
 
-## 🧠 Technologies
+## 🧠 Tech Stack
 
-- Python
-- Streamlit
-- PyMuPDF
-- SentenceTransformers
-- FAISS
-- BM25
-- OpenRouter API
-- NumPy
-
----
-
-## 🔬 How It Works
-
-1. Extract text from uploaded PDFs.
-2. Split documents into semantic chunks.
-3. Generate dense embeddings using SentenceTransformers.
-4. Store embeddings in a FAISS index.
-5. Combine semantic retrieval with BM25 keyword search.
-6. Retrieve the most relevant chunks.
-7. Augment prompts with retrieved context.
-8. Generate answers and summaries using an LLM through OpenRouter.
+| Component | Technology |
+|-----------|------------|
+| Frontend | Streamlit |
+| PDF Parsing | PyMuPDF |
+| Embeddings | SentenceTransformers |
+| Vector Search | FAISS |
+| Keyword Search | BM25 |
+| LLM | OpenRouter |
+| Language | Python |
 
 ---
 
-## 🚧 Future Improvements
+## 🔬 Pipeline
 
-- Citation-aware responses
-- Interactive paper comparison
+1. PDF parsing
+2. Text preprocessing
+3. Semantic chunking
+4. Embedding generation
+5. FAISS indexing
+6. BM25 indexing
+7. Hybrid retrieval
+8. Context aggregation
+9. Optional web search
+10. LLM response generation
+11. Source attribution
+
+---
+
+## 🔮 Future Improvements
+
+- Cross-paper comparison mode
 - Figure and table understanding
-- Export summaries to PDF/Markdown
-- Conversation memory across sessions
-- Support for additional document formats
+- PDF export of summaries
+- Citation-aware responses
+- Conversation memory
+- OCR support for scanned PDFs
+- ArXiv paper import
+- DOI-based retrieval
 
 ---
 
