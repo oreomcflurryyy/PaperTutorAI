@@ -1,0 +1,24 @@
+# Virtual environment
+venv/
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Vector database
+vector_db/
+
+# Temporary files
+*.pdf
+*.log
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
